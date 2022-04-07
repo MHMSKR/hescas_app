@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "hescas_app",
+    "slug": "hescas_app",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "hescas_app"
+}
