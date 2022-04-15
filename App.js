@@ -1,21 +1,24 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React  from 'react';
+import { AuthProvider } from './context/AuthContext'
+import { AxiosProvider } from './context/AxiosContext'
+import  Navigations from './Navigations'
+import { useFonts } from 'expo-font'
 
 export default function App() {
+  const [loadFont] = useFonts({
+    kanit_medium: require('./assets/fonts/Kanit-Medium.ttf'),
+    kanit_light: require('./assets/fonts/Kanit-Light.ttf')
+});
+
+if (!loadFont) {
+    return null;
+}
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <AuthProvider >
+      <AxiosProvider>
+        <Navigations />
+      </AxiosProvider>
+    </AuthProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
