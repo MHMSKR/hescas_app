@@ -26,6 +26,7 @@ function LoginScreen({ navigation }) {
     try {
       setStatus(true)
       if (!(username && password)) {
+        setStatus(false)
         setModalVisible(true)
         setAlertType('info')
         setAlertMessage('All input is required')
@@ -71,17 +72,16 @@ function LoginScreen({ navigation }) {
       setAlertMessage(error.response.data.message)
       setStatus(false)
     }
-    useEffect(()=>{
-      onLogin();
-      return(()=>{
-        controller.abort()
-      })
-    })
-
+    
   } 
   const clearState = () => {
     setPassword(null)
   }
+  useEffect(()=>{
+    return(()=>{
+      controller.abort()
+    })
+  },[])
   return (
     <SafeAreaView style={styles.container}>
       <CustomLoading  visible={status}/> 
