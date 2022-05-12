@@ -79,7 +79,12 @@ function LoginScreen({ navigation }) {
   }
   useEffect(()=>{
     return(()=>{
-      controller.abort()
+      setModalVisible(null)
+      setAlertType(null)
+      setAlertTitle(null)
+      setAlertMessage(null)
+      setStatus(null)
+      controller.abort(); 
     })
   },[])
   return (

@@ -8,8 +8,10 @@ import { AxiosContext } from '../context/AxiosContext';
 import { AuthContext } from '../context/AuthContext'
 import CustomAlert from '../components/CustomAlert';
 import * as SecureStore from 'expo-secure-store'
+import { useEffect } from 'react/cjs/react.production.min';
 
 function RegisterScreen({ navigation }) {
+    const controller = new AbortController();
     const authContext = useContext(AuthContext);
     const [fullname, setFullname] = useState('');
     const [password, setPassword] = useState('');
@@ -43,7 +45,7 @@ function RegisterScreen({ navigation }) {
                         email: email,
                         password: password,
                         role: role
-                    }).then(function (response) {
+                    },{ signal: controller.signal }).then(function (response) {
                         setModalVisible(true)
                         setAlertType('success')
                         setAlertMessage(response.data.message)
@@ -85,7 +87,17 @@ function RegisterScreen({ navigation }) {
         setFullname(null)
         setPassword(null)
         setRePassword(null)
+        setRole(null)
     }
+    useEffect(() => {
+        return (() => {
+            setModalVisible(null)
+            setAlertType(null)
+            setAlertTitle(null)
+            setAlertMessage(null)
+            controller.abort();
+        })
+    },[])
 
     return (
 
