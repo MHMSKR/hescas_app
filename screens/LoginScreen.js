@@ -35,7 +35,7 @@ function LoginScreen({ navigation }) {
         publicAxios.post('/login', {
           email: username,
           password: password
-        },{ signal: controller.signal }).then((response) => {
+        },{ signal: controller.signal}).then((response) => {
           // set context state 
           const { accessToken, refreshToken } = response.data;
           authContext.setAuthState({

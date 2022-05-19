@@ -7,7 +7,8 @@ import { useFonts } from 'expo-font'
 export default function App() {
   const [loadFont] = useFonts({
     kanit_medium: require('./assets/fonts/Kanit-Medium.ttf'),
-    kanit_light: require('./assets/fonts/Kanit-Light.ttf')
+    kanit_light: require('./assets/fonts/Kanit-Light.ttf'),
+    Bebas_Neue:require('./assets/fonts/BebasNeue-Regular.ttf')
 });
 
 if (!loadFont) {

@@ -18,33 +18,38 @@ import history from '../assets/icons/history_file.png'
 import chat from '../assets/icons/chat.png'
 import user from '../assets/icons/user.png'
 import warning from '../assets/icons/warning.png'
-import CustomGap from '../components/CustomGap'
+import ChartScreen from './ChartScreen'
 
 
-const HomeScreen = () => {
-
+const HomeScreen = ({ navigation }) => {
+  const controller = new AbortController();
   const day = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const month = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   const authContext = useContext(AuthContext)
   const { authAxios } = useContext(AxiosContext)
-  const [users, setUsers] = useState({})
-  const [loading, setLoding] = useState(true)
+  const [users, setUsers] = useState({});
+  const [loading, setLoding] = useState(true);
+
 
   useEffect(() => {
-    const fecthData =async () =>{
+    const fecthData = async () => {
       try {
-        const response = await authAxios.get('/');
-        if(loading){
+        const response = await authAxios.get('/', { signal: controller.signal});
+        if (loading) {
           setUsers(await response.data);
           setLoding(false)
-        }  
+        } else {
+          setLoding(false)
+        }
       } catch (error) {
-        console.log(error)
         setLoding(false)
+        throw error
       }
     }
     fecthData();
-    return () => { loading };
+    return () => { 
+      setLoding(null)
+      controller.abort(); };
   }, [])
 
   if (loading) {
@@ -94,7 +99,7 @@ const HomeScreen = () => {
                   stylesImage={styles.profile_img}
                 />
                 <CustomeTextOutput
-                  text={users.user.fullname || 'N/A'}
+                  text={`Hello, ${users.user.fullname}`}
                   size={18}
                   family='medium'
                   color={'#FFFFFF'}
@@ -110,52 +115,51 @@ const HomeScreen = () => {
               </View>
               <View style={styles.user_info_right}>
                 <CustomeTextOutput
-                  text={"ID : " + users.info.HS_ID || 'N/A'}
+                  text={"ID : " + users.info.HS_ID}
                   size={12}
                   family='medium'
                   color='#FFFFFF'
                 />
                 <CustomeTextOutput
-                  text={`address: ${users.info.info.address || 'N/A'}`}
+                  text={`address: ${users.info.info.address}`}
                   size={10}
                   color='#C1DDF8'
                   family='medium'
                 />
                 <CustomeTextOutput
-                  text={`Sub district : ${users.info.info.Sub_district || 'N/A'}`}
+                  text={`Sub district : ${users.info.info.Sub_district}`}
                   size={10}
                   color='#C1DDF8'
                   family='medium'
                 />
                 <CustomeTextOutput
-                  text={`district : ${users.info.info.district || 'N/A'}`}
+                  text={`district : ${users.info.info.district}`}
                   size={10}
                   color='#C1DDF8'
                   family='medium'
                 />
                 <CustomeTextOutput
-                  text={`Province: ${users.info.info.Province || 'N/A'} ${users.info.info.Postal_Code || 'N/A'}`}
+                  text={`Province: ${users.info.info.Province} ${users.info.info.Postal_Code}`}
                   size={10}
                   color='#C1DDF8'
                   family='medium'
                 />
                 <CustomeTextOutput
-                  text={`CA_Ref : ${users.info.info.CA_Ref || 'N/A'}`}
+                  text={`CA_Ref : ${users.info.info.CA_Ref}`}
                   size={10}
                   color='#C1DDF8'
                   family='medium'
                 />
                 <CustomeTextOutput
-                  text={`type meter: ${users.info.info.type_meter || 'N/A'}`}
+                  text={`type meter: ${users.info.info.type_meter}`}
                   size={10}
                   color='#C1DDF8'
                   family='medium'
                 />
               </View>
             </View>
-            <View style={styles.center_energy_info}>
-
-            </View>
+            {/*  energy side */}
+            <ChartScreen />
           </View>
           {/*  buttom menu bar */}
           <View style={styles.foot_menu_bar}>
@@ -252,13 +256,6 @@ const styles = StyleSheet.create({
     height: 55,
   },
 
-  // energy field 
-  center_energy_info: {
-    backgroundColor: '#FFFFFF',
-    flex: 4.5,
-    borderTopRightRadius: 30,
-    borderTopLeftRadius: 30
-  },
 
   // bottom element menu bar 
   foot_menu_bar: {
@@ -269,8 +266,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderTopWidth: 1,
     borderColor: '#FFFFFF',
-
-
   },
 
   // icon and text style

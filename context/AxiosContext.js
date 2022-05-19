@@ -13,11 +13,12 @@ function AxiosProvider({ children }) {
     const authContext = useContext(AuthContext)
     // create instance public Api and authenticate Api
     const publicAxios = axios.create({
-        baseURL: 'http://hescas.trueddns.com:49590/auth'
+        baseURL: 'http://hescas.trueddns.com:49590/auth',
+        timeout:5000
     });
     const authAxios = axios.create({
         baseURL: 'http://hescas.trueddns.com:49590/me',
-        timeout:1000
+        timeout:5000
     });
 
     // Create AuthAxios instance to use inceptor token

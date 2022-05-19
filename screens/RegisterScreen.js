@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext ,useEffect} from 'react'
 import { StyleSheet, View, Image, Text, SafeAreaView, ScrollView, AlertButton } from 'react-native'
 import logoImg from '../assets/image/logo.png';
 import CustomButton from '../components/CustomButton';
@@ -8,7 +8,6 @@ import { AxiosContext } from '../context/AxiosContext';
 import { AuthContext } from '../context/AuthContext'
 import CustomAlert from '../components/CustomAlert';
 import * as SecureStore from 'expo-secure-store'
-import { useEffect } from 'react/cjs/react.production.min';
 
 function RegisterScreen({ navigation }) {
     const controller = new AbortController();
@@ -82,12 +81,9 @@ function RegisterScreen({ navigation }) {
         }
 
     }
-    const clearState = () => {
-        setEmail(null)
-        setFullname(null)
+    const clearState = () => { 
         setPassword(null)
         setRePassword(null)
-        setRole(null)
     }
     useEffect(() => {
         return (() => {
@@ -95,6 +91,9 @@ function RegisterScreen({ navigation }) {
             setAlertType(null)
             setAlertTitle(null)
             setAlertMessage(null)
+            setRole(null)
+            setEmail(null)
+            setFullname(null)
             controller.abort();
         })
     },[])
