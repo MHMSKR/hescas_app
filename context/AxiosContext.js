@@ -13,11 +13,11 @@ function AxiosProvider({ children }) {
     const authContext = useContext(AuthContext)
     // create instance public Api and authenticate Api
     const publicAxios = axios.create({
-        baseURL: 'http://hescas.trueddns.com:49590/auth',
+        baseURL: 'http://example.com:00000/auth',
         timeout:5000
     });
     const authAxios = axios.create({
-        baseURL: 'http://hescas.trueddns.com:49590/me',
+        baseURL: 'http://example.com:00000/me',
         timeout:5000
     });
 
@@ -42,7 +42,7 @@ function AxiosProvider({ children }) {
         return axios({
             method: 'POST',
             data,
-            url: 'http://hescas.trueddns.com:49590/auth/refresh-token',
+            url: 'http://example.com:00000/auth/refresh-token',
         }).then(
             async function (response) {
                 failedRequest.response.config.headers['Authorization'] = 'Bearer' + response.data.accessToken;
